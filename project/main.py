@@ -15,7 +15,6 @@ app = Flask(__name__)
 # app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
-
 ckeditor = CKEditor(app)
 Bootstrap(app)
 login_manager = LoginManager(app)
@@ -110,7 +109,7 @@ def get_all_posts():
     return render_template("index.html", current_user=current_user, all_posts=posts)
 
 
-#Register new users into the User database
+# Register new users into the User database
 @app.route('/register', methods=["GET", "POST"])
 def register():
     form = RegisterForm()
@@ -122,9 +121,9 @@ def register():
             salt_length=8
         )
         if User.query.filter_by(email=form.email.data).first():
-            #Send flash messsage
+            # Send flash messsage
             flash("You've already signed up with that email, log in instead!")
-            #Redirect to /login route.
+            # Redirect to /login route.
             return redirect(url_for('login'))
 
         new_user = User(
@@ -136,7 +135,7 @@ def register():
         db.session.commit()
         
         
-        #This line will authenticate the user with Flask-Login
+        # This line will authenticate the user with Flask-Login
         login_user(new_user)
         return redirect(url_for("get_all_posts"))
 
@@ -261,8 +260,3 @@ def delete_post(post_id):
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
-
-
